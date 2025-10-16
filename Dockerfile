@@ -16,7 +16,8 @@ COPY . /app
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
 # (اختياري) بناء أصول Vite (إذا عندك Vite)
-RUN npm ci --silent && npm run build
+
+RUN npm ci && npm run build
 
 # صلاحيات Laravel
 RUN chown -R application:application /app/storage /app/bootstrap/cache
@@ -30,6 +31,7 @@ ENV PHP_DISPLAY_ERRORS=0
 
 # Cache للكونفيج والروتس والـviews عند التشغيل
 CMD php artisan config:cache \
- && php artisan route:cache \
- && php artisan view:cache \
- && supervisord
+    && php artisan route:cache \
+    && php artisan view:cache \
+    && supervisord
+
